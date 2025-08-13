@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+output/
+# Env
+.env
+
+# Node/Frontend cache (if any)
+node_modules/
+
+# Reports and outputs (keep committed JSON if you wish, but ignore large artifacts)
+output/cleaned_data/*.csv
+output/raw_data/compound_beta/*_raw.txt
+output/charts/
+
+# Logs
+*.log
+manus_clone.log
+
+
