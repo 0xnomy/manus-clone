@@ -2,6 +2,8 @@
 
 Manus Clone performs smart web research using an LLM, selectively scrapes LinkedIn profiles when present, and produces a clean, text-only report. It can be used from a web UI or CLI.
 
+![Frontend UI](frontend.png)
+
 ## How it works
 
 - Query classification: routes fact-style questions to web-only search; routes LinkedIn requests to profile scraping.
