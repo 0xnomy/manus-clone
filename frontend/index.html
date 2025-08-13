@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manus Clone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 text-slate-900">
+    <header class="border-b border-slate-200 bg-white">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-indigo-600 animate-pulse"></div>
+                <span class="font-semibold tracking-tight">Manus Clone</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-12">
+        <section class="mb-10">
+            <h1 class="text-4xl font-semibold mb-3 tracking-tight">AI Research & Scraping Agent</h1>
+            <p class="text-slate-700 mb-6 max-w-3xl">Run a search, optionally scrape LinkedIn profiles when they’re
+                found, and get a clean text report with an executive summary, core data, and sources.</p>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div
+                    class="p-5 bg-white/80 backdrop-blur border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <h3 class="font-medium mb-1">Smart Search</h3>
+                    <p class="text-sm text-slate-600">Compound‑Beta returns a narrative answer and per‑link snippets.
+                    </p>
+                </div>
+                <div
+                    class="p-5 bg-white/80 backdrop-blur border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <h3 class="font-medium mb-1">Selective Scraping</h3>
+                    <p class="text-sm text-slate-600">LinkedIn profiles are scraped when present; otherwise web facts
+                        are used.</p>
+                </div>
+                <div
+                    class="p-5 bg-white/80 backdrop-blur border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <h3 class="font-medium mb-1">Text‑Only Reports</h3>
+                    <p class="text-sm text-slate-600">Readable output designed for quick review and sharing.</p>
+                </div>
+            </div>
+            <div class="mt-8 grid md:grid-cols-3 gap-4 text-sm">
+                <div class="flex items-start gap-3 bg-white/70 border border-slate-200 rounded-lg p-4">
+                    <div class="h-6 w-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs">
+                        1</div>
+                    <div>
+                        <div class="font-medium">Search</div>
+                        <div class="text-slate-600">Ask a question or specify a profile/query. Results include sources
+                            and snippets.</div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 bg-white/70 border border-slate-200 rounded-lg p-4">
+                    <div class="h-6 w-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs">
+                        2</div>
+                    <div>
+                        <div class="font-medium">Detect & Scrape</div>
+                        <div class="text-slate-600">If LinkedIn profiles appear, we scrape them for structured details.
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 bg-white/70 border border-slate-200 rounded-lg p-4">
+                    <div class="h-6 w-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs">
+                        3</div>
+                    <div>
+                        <div class="font-medium">Generate Report</div>
+                        <div class="text-slate-600">A text‑only report with executive summary, core data, and sources.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white/90 backdrop-blur shadow-sm border border-slate-200 rounded-xl p-6">
+            <form id="run-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Your query</label>
+                    <input id="input" type="text"
+                        placeholder="e.g., what is the avg salary of an AI engineer in bay area?"
+                        class="w-full rounded-md border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 transition-shadow shadow-sm focus:shadow" />
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Max results</label>
+                        <input id="maxResults" type="number" value="5" min="1"
+                            class="w-full rounded-md border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 transition-shadow shadow-sm focus:shadow" />
+                    </div>
+                    <div class="flex items-end">
+                        <label class="inline-flex items-center gap-2 text-sm">
+                            <input id="verbose" type="checkbox" checked
+                                class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+                            Verbose
+                        </label>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button type="submit"
+                        class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-5 py-2.5 rounded-md transition-transform active:scale-[.98]">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 12l18-9-9 18-2-7z" />
+                        </svg>
+                        Run
+                    </button>
+                    <span id="status" class="text-sm text-slate-600"></span>
+                </div>
+            </form>
+        </section>
+
+        <section id="log-card"
+            class="hidden mt-8 bg-white/90 backdrop-blur shadow-sm border border-slate-200 rounded-xl p-6">
+            <h2 class="text-lg font-semibold mb-3">Logs</h2>
+            <pre id="logs" class="text-sm bg-slate-50 p-3 rounded overflow-auto max-h-60 border border-slate-200"></pre>
+        </section>
+
+        <section id="report-card"
+            class="hidden mt-8 bg-white/90 backdrop-blur shadow-sm border border-slate-200 rounded-xl p-6">
+            <h2 class="text-lg font-semibold mb-3">Report</h2>
+            <pre id="report"
+                class="whitespace-pre-wrap text-sm leading-6 font-mono border border-slate-200 p-4 rounded"></pre>
+        </section>
+    </main>
+
+    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500">© <span id="year"></span> Manus
+        Clone</footer>
+
+    <script>
+        const form = document.getElementById('run-form');
+        const statusEl = document.getElementById('status');
+        const logCard = document.getElementById('log-card');
+        const logsEl = document.getElementById('logs');
+        const reportCard = document.getElementById('report-card');
+        const reportEl = document.getElementById('report');
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        function appendLog(line) {
+            logsEl.textContent += line + '\n';
+            logsEl.scrollTop = logsEl.scrollHeight;
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            logsEl.textContent = '';
+            reportEl.textContent = '';
+            logCard.classList.remove('hidden');
+            reportCard.classList.add('hidden');
+
+            const input = document.getElementById('input').value.trim();
+            const maxResults = parseInt(document.getElementById('maxResults').value || '5', 10);
+            const verbose = document.getElementById('verbose').checked;
+            if (!input) {
+                statusEl.textContent = 'Please enter a query';
+                return;
+            }
+
+            statusEl.textContent = 'Submitting...';
+            appendLog('Submitting job');
+            const res = await fetch('/api/run', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ input, max_results: maxResults, verbose })
+            });
+            if (!res.ok) {
+                statusEl.textContent = 'Submit failed';
+                appendLog('Submit failed');
+                return;
+            }
+            const { job_id } = await res.json();
+            appendLog('Job ID: ' + job_id);
+            statusEl.textContent = 'Running...';
+
+            // Poll status
+            const poll = setInterval(async () => {
+                const st = await fetch('/api/status/' + job_id);
+                if (!st.ok) return;
+                const data = await st.json();
+                statusEl.textContent = data.status + ' (' + (data.progress || 0).toFixed(0) + '%)';
+                logsEl.textContent = (data.logs || []).join('\n');
+                if (data.status === 'completed' || data.status === 'failed') {
+                    clearInterval(poll);
+                    if (data.status === 'completed') {
+                        const rep = await fetch('/api/report/' + job_id);
+                        if (rep.ok) {
+                            const text = await rep.text();
+                            reportEl.textContent = text;
+                            reportCard.classList.remove('hidden');
+                            reportCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        } else {
+                            reportEl.textContent = 'Report not available';
+                            reportCard.classList.remove('hidden');
+                        }
+                    }
+                }
+            }, 1500);
+        });
+        // Report is shown as plain text in a <pre> block (no downloads/buttons)
+    </script>
+</body>
+
+</html>
